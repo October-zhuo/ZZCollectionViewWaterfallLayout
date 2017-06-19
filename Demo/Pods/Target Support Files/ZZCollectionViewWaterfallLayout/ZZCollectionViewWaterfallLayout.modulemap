@@ -1,0 +1,6 @@
+framework module ZZCollectionViewWaterfallLayout {
+  umbrella header "ZZCollectionViewWaterfallLayout-umbrella.h"
+
+  export *
+  module * { export * }
+}

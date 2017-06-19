@@ -1,0 +1,16 @@
+PODS:
+  - ZZCollectionViewWaterfallLayout (1.0.0)
+
+DEPENDENCIES:
+  - ZZCollectionViewWaterfallLayout (from `../`)
+
+EXTERNAL SOURCES:
+  ZZCollectionViewWaterfallLayout:
+    :path: ../
+
+SPEC CHECKSUMS:
+  ZZCollectionViewWaterfallLayout: 00a76b2524f7c2a2935eafff2a7ebc3d7437adba
+
+PODFILE CHECKSUM: 6a64e99db88a93353167990bd1fc32a36b429784
+
+COCOAPODS: 1.1.1
