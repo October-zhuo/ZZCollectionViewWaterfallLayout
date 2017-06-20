@@ -8,21 +8,27 @@
 
 #import "ZZCollectionViewWaterfallLayout.h"
 
+///需要进行合并的cell frame个数。每20个合并一次
 #define kUnionCount 20
 
 @interface ZZCollectionViewWaterfallLayout()
-@property (nonatomic, weak)id<ZZCollectionViewWaterfallLayoutProtocol> ZZdelegate;
+///遵守瀑布流协议的代理
+@property (nonatomic, weak)id<ZZCollectionViewWaterfallLayoutProtocol> ZZDelegate;
+///存储cell布局属性的数组
 @property (nonatomic, strong)NSMutableArray *itemAttributeArray;
+///存储瀑布流每列列高的数组
 @property (nonatomic, strong)NSMutableArray *columHeightArray;
+///存储frame元素合并后元素的数组
 @property (nonatomic, strong)NSMutableArray *unionRectArray;
 @end
 
 @implementation ZZCollectionViewWaterfallLayout
 
-- (id<ZZCollectionViewWaterfallLayoutProtocol>)ZZdelegate{
+- (id<ZZCollectionViewWaterfallLayoutProtocol>)ZZDelegate{
     return (id<ZZCollectionViewWaterfallLayoutProtocol>)self.collectionView.delegate;
 }
 
+///初始化
 - (instancetype)init{
     if (self = [super init]) {
         _minItemSpace = 10;
@@ -32,6 +38,7 @@
     return self;
 }
 
+#pragma mark - override method
 - (void)prepareLayout{
     [self.itemAttributeArray removeAllObjects];
     [self.columHeightArray removeAllObjects];
@@ -40,7 +47,7 @@
     for (int i = 0; i < _columCount; i ++) {
         [self.columHeightArray addObject:@0];
     }
-    
+    //计算每个cell的宽度
     CGFloat itemWidth = (self.collectionView.bounds.size.width - (self.columCount + 2) * self.minColumSpace)/(CGFloat)self.columCount;
     
     NSInteger sections = [self.collectionView numberOfSections];
@@ -48,7 +55,7 @@
         NSInteger items = [self.collectionView numberOfItemsInSection:section];
         for (int idx = 0; idx < items; idx ++) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:section];
-            CGSize itemSize = [self.ZZdelegate collectionview:self.collectionView layout:self sizeForItemAtindex:indexPath];
+            CGSize itemSize = [self.ZZDelegate collectionview:self.collectionView layout:self sizeForItemAtindex:indexPath];
             CGFloat itemHeight = itemSize.height * itemWidth/itemSize.width;
             NSInteger colum = [self findNextColum];
             CGFloat yOffset = [self.columHeightArray[colum] floatValue] + self.minItemSpace;
@@ -56,11 +63,14 @@
             CGRect frame = CGRectMake(xOffset, yOffset, itemWidth, itemHeight);
             UICollectionViewLayoutAttributes *attibutes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
             attibutes.frame = frame;
+            //存储cell的布局属性
             [self.itemAttributeArray addObject:attibutes];
+            //存储最新的列高度
             self.columHeightArray[colum] = @(yOffset + itemHeight);
         }
     }
     
+    //将小的cell frame进行合并。每20个frame合并一次。最后不足20个元素的时候，单独合并一次。
     NSInteger index = 0;
     NSInteger attibutesCount = self.itemAttributeArray.count;
     while (index < attibutesCount) {
@@ -79,6 +89,7 @@
     return self.itemAttributeArray[indexPath.row];
 }
 
+///根据将要显示的区域位置，返回cell的布局属性。该方法中会将已经合并的cell的布局属性进行拆分，单独取出每一个属性，存放进数组中，最后返回数组。
 - (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect{
     NSInteger begin = 0;
     NSInteger end = self.unionRectArray.count;
@@ -119,6 +130,7 @@
     }
 }
 
+///返回collectionview的contentsize。是整个collectionview可以滚动的size。不是可视的size。
 - (CGSize)collectionViewContentSize{
     CGFloat width = self.collectionView.bounds.size.width;
     CGFloat height = 0;
@@ -130,6 +142,7 @@
     return CGSizeMake(width, height);
 }
 
+///在瀑布流布局中寻找下一个元素应该摆放的列。即寻找高低最小的列。
 - (NSInteger)findNextColum{
     NSInteger colum = 0;
     CGFloat minHeight = [self.columHeightArray[0] floatValue];
@@ -142,6 +155,7 @@
     return colum;
 }
 
+#pragma mark - 懒加载
 - (NSMutableArray *)itemAttributeArray{
     if (!_itemAttributeArray) {
         _itemAttributeArray = [[NSMutableArray alloc] init];

@@ -7,17 +7,34 @@
 //
 
 #import <UIKit/UIKit.h>
-
+/**
+ 流水布局协议
+ */
 @protocol ZZCollectionViewWaterfallLayoutProtocol <NSObject>
 
+/**
+ 布局必须实现的协议。返回每个collectionview的cell的size。
+ collectionview：要显示的view
+ layout：瀑布流布局layout
+ index：需要布局的cell的索引
+ */
 @required
 - (CGSize)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout sizeForItemAtindex:(NSIndexPath *)index;
 
 @end
 
 @interface ZZCollectionViewWaterfallLayout : UICollectionViewLayout
+/**
+ 瀑布流布局的列数，默认是3；
+ */
 @property (nonatomic, assign)NSInteger columCount;
+/**
+ 瀑布流布局的最小列间距，默认是10；
+ */
 @property (nonatomic, assign)CGFloat minColumSpace;
+/**
+ 瀑布流布局的最小行间距，默认是10；
+ */
 @property (nonatomic, assign)CGFloat minItemSpace;
 
 @end
