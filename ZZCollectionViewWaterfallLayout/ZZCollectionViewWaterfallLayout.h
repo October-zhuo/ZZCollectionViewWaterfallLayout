@@ -21,6 +21,17 @@
 @required
 - (CGSize)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout sizeForItemAtindex:(NSIndexPath *)index;
 
+@optional
+
+- (NSInteger)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout columCountAtSection:(NSInteger)section;
+
+- (CGFloat)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout minColumSpaceAtSection:(NSInteger)section;
+
+- (CGFloat)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout minItemSpaceAtSection:(NSInteger)section;
+
+- (CGFloat)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout headerHeightAtSection:(NSInteger)section;
+
+- (CGFloat)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout footerHeightAtSection:(NSInteger)section;
 @end
 
 @interface ZZCollectionViewWaterfallLayout : UICollectionViewLayout
@@ -36,5 +47,13 @@
  瀑布流布局的最小行间距，默认是10；
  */
 @property (nonatomic, assign)CGFloat minItemSpace;
+/**
+ 瀑布流布局的header高度,默认是40；
+ */
+@property (nonatomic ,assign)CGFloat headerHeight;
+/**
+ 瀑布流布局的footer高度，默认是40；
+ */
+@property (nonatomic, assign)CGFloat footerHeight;
 
 @end
