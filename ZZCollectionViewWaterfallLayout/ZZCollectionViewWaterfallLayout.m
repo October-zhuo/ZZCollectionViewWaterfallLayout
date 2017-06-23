@@ -307,6 +307,7 @@ NSString *const ZZCollectionViewWaterfallLayoutFooter = @"ZZCollectionViewWaterf
     return colum;
 }
 
+//找到布局中最长的列
 - (NSInteger)findHeightestColumAtSection:(NSInteger) section{
     NSInteger colum = 0;
     CGFloat maxHeight = [self.columHeightArray[section][0] floatValue];

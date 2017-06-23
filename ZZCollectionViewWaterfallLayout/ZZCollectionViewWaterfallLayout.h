@@ -22,15 +22,40 @@
 - (CGSize)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout sizeForItemAtindex:(NSIndexPath *)index;
 
 @optional
-
+/**
+ 返回对应section中要排列的列数。如果不实现该方法，就使用columCount。
+ collectionview：要显示的view
+ layout：瀑布流布局layout
+ section：需要布局的section的索引
+ */
 - (NSInteger)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout columCountAtSection:(NSInteger)section;
-
+/**
+ 返回对应section中最小的列间距。如果不实现该方法，就使用minColumSpace。
+ collectionview：要显示的view
+ layout：瀑布流布局layout
+ section：需要布局的section的索引
+ */
 - (CGFloat)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout minColumSpaceAtSection:(NSInteger)section;
-
+/**
+ 返回对应section中最小的行间距。如果不实现该方法，就使用minItemSpace。
+ collectionview：要显示的view
+ layout：瀑布流布局layout
+ section：需要布局的section的索引
+ */
 - (CGFloat)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout minItemSpaceAtSection:(NSInteger)section;
-
+/**
+ 返回对应section中footer的高度。如果不实现该方法，就使用footerHeight。
+ collectionview：要显示的view
+ layout：瀑布流布局layout
+ section：需要布局的section的索引
+ */
 - (CGFloat)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout headerHeightAtSection:(NSInteger)section;
-
+/**
+ 返回对应section中header的高度。如果不实现该方法，就使用headerHeight。
+ collectionview：要显示的view
+ layout：瀑布流布局layout
+ section：需要布局的section的索引
+ */
 - (CGFloat)collectionview:(UICollectionView *)collectionview layout:(UICollectionViewLayout *)layout footerHeightAtSection:(NSInteger)section;
 @end
 
